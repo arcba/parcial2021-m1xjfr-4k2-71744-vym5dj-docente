@@ -1,0 +1,116 @@
+<div class="tituloPagina">
+{{Titulo}} <small>{{TituloAccionABMC[AccionABMC]}}</small>
+</div>
+
+<div class="row justify-content-center botones" *ngIf="AccionABMC == 'L'">
+<button type="button" class="btn btn-primary" (click)="Agregar()">
+    <i class="fas fa-plus"> </i> 
+    Alta
+</button>
+</div>
+<br>
+<div id="divTablaResultados" *ngIf="AccionABMC == 'L' && Items?.length > 0">
+  <table class="table table-hover table-sm table-bordered table-striped">
+    <thead>
+      <tr>
+        <th class="text-center">Apellido y nombre</th>
+        <th class="text-center">Monto</th>
+        <th class="text-center">Incobrable</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let Item of Items">
+        <td>{{Item.DeudorApeNom | uppercase}}</td>
+        <td>{{Item.DeudorMonto}}</td>
+        <td>{{Item.DeudorIncobrable}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<form name="FormRegistro" [formGroup]='FormRegistro' *ngIf="AccionABMC == 'A'">
+  <div class="container-fluid">
+    <!--campo nombre-->
+    <div class="row">
+      <div class="col-sm-4 col-md-3 offset-md-1">
+        <label class="col-form-label" for="Nombre">Apellido y nombre<span
+                  class="text-danger">*</span>:</label>
+      </div>
+      <div class="col-sm-8 col-md-6">
+        <input type="text" class="form-control" formControlName="DeudorApeNom"
+      [ngClass]="{'is-invalid': (FormRegistro.controls.DeudorApeNom.touched || submitted)  
+          && FormRegistro.controls.DeudorApeNom.errors}"/>
+
+        <div class="validacion" *ngIf="(FormRegistro.controls.DeudorApeNom.touched || submitted) 
+                      && FormRegistro.controls.DeudorApeNom.errors?.required">
+          Dato requerido.
+        </div>
+        <div class="validacion"
+          *ngIf="(FormRegistro.controls.DeudorApeNom.touched || submitted) 
+                    && (FormRegistro.controls.DeudorApeNom.errors?.minlength || FormRegistro.controls.DeudorApeNom.errors?.maxlength) ">
+          Dato texto, 4 a 55 caracteres.
+        </div>
+
+      </div>
+    </div>
+
+    <!--campo monto-->
+    <div class="row">
+      <div class="col-sm-4 col-md-3 offset-md-1">
+        <label class="col-form-label" for="Monto">
+              Monto<span class="text-danger">*</span>:
+        </label>
+      </div>
+      <div class="col-sm-8 col-md-6">
+        <input type="text" name="Monto" class="form-control" formControlName="DeudorMonto"
+      [ngClass]="{'is-invalid': (FormRegistro.controls.DeudorMonto.touched || submitted)  
+          && FormRegistro.controls.DeudorMonto.errors}" />
+        <div class="validacion" *ngIf="(FormRegistro.controls.DeudorMonto.touched || submitted) 
+                      && FormRegistro.controls.DeudorMonto.errors?.required">
+          Dato requerido.
+        </div>
+        <div class="validacion" *ngIf="(FormRegistro.controls.DeudorMonto.touched || submitted) 
+                      && FormRegistro.controls.DeudorMonto.errors?.pattern">
+          Dato numérico, 1 a 7 dígitos.
+        </div>
+      </div>
+    </div>
+
+    <!--campo incobrable-->
+    <div class="row">
+      <div class="col-sm-4 col-md-3 offset-md-1">
+        <label class="col-form-label" for="Incobrable">Incobrable:</label>
+      </div>
+      <div class="col-sm-8 col-md-6">
+        <select class="form-control" name="Incobrable" formControlName="DeudorIncobrable" [ngClass]="{'is-invalid': (FormRegistro.controls.DeudorIncobrable.touched || submitted)  
+        && FormRegistro.controls.DeudorIncobrable.errors}">
+          <option *ngFor="let opt of OpcionesIncobrable"  [ngValue]="opt.Id">
+                      ‌{{ opt.Nombre }}
+          </option>            
+        </select>
+        <div class="validacion" *ngIf="(FormRegistro.controls.DeudorIncobrable.touched || submitted) 
+                      && FormRegistro.controls.DeudorIncobrable.errors?.required">
+          Dato requerido.
+        </div>
+      </div>
+    </div>
+
+    <!-- Botones Grabar, Cancelar/Volver' -->
+    <hr>
+    <div class="row justify-content-center botones">
+      <button type="button" class="btn btn-primary" (click)="Grabar()">
+            <i class="fas fa-check"></i> Grabar
+        </button>
+      &nbsp;
+      <button type="button" class="btn btn-warning" (click)="Volver()">
+            <i class="fas fa-undo"></i> Cancelar
+        </button>
+    </div>
+
+    <br>
+    <!--texto: Revisar los datos ingresados...-->
+    <div *ngIf="submitted && FormRegistro.invalid" class="row alert alert-danger mensajesAlert">
+      <i class="fas fa-exclamation-sign"></i>{{Mensajes['RD']}}
+    </div>
+  </div>
+</form>

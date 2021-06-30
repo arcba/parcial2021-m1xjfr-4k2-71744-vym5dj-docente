@@ -1,0 +1,10 @@
+.tituloPagina {
+  font-size: 1.75rem;
+  font-weight: 500;
+  color:blueviolet;
+  border-bottom-style: solid;
+  border-color: gray;
+  border-bottom-width: thin;
+  padding-bottom: 0.1em;
+  margin-bottom: 0.5em;
+}
